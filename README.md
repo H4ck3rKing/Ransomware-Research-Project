@@ -1,6 +1,6 @@
 # A Comprehensive Ransomware Analysis and Testing Project
 
-![Project Banner](screenshots/cryptolocker2024_banner.png)
+![Project Banner](screenshots/banner.png)
 
 ## Table of Contents
 
