@@ -25,7 +25,7 @@
 
 ## Introduction
 
-This project aims to provide a detailed analysis and testing of a modern ransomware strain, CryptoLocker2024. By documenting the entire process, from creation to testing, this project seeks to offer valuable insights into ransomware threats, their functionality, and potential mitigation strategies. This project is intended for educational and research purposes only and should not be used for malicious activities.
+This project aims to provide a detailed analysis and testing of a modern ransomware, one I have written myself. By documenting the entire process, from creation to testing, this project seeks to offer valuable insights into ransomware threats, their functionality, and potential mitigation strategies. This project is intended for educational and research purposes only and should not be used for malicious activities.
 
 ## Project Setup
 
@@ -61,8 +61,7 @@ This project aims to provide a detailed analysis and testing of a modern ransomw
 - **Version:** 3.9.7
 - **Libraries:**
   - PyCryptodome (3.10.1) - Cryptography library
-  - requests (2.26.0) - HTTP requests library
-  - argparse (1.1) - Command-line argument parser
+  - tk
 
 #### Security Tools
 
@@ -93,7 +92,7 @@ This project aims to provide a detailed analysis and testing of a modern ransomw
 1. Identify target files based on their file extensions.
 2. Generate a unique AES key for each file using `get_random_bytes(32)` from PyCryptodome.
 3. Encrypt the file data using the generated AES key and AES-256-CBC mode.
-4. Append the encrypted file data with a unique file extension (e.g.,.cryptolocker2024).
+4. Append the encrypted file data with a unique file extension.
 5. Generate a master key and encrypt it using the victim's public RSA key (obtained from a C2 server).
 6. Save the encrypted master key and the initial vector (IV) used for AES encryption in a ransom note file.
 
@@ -106,8 +105,8 @@ This project aims to provide a detailed analysis and testing of a modern ransomw
 - Ransom demand: 1 Bitcoin (BTC) or equivalent in other#### Ransom Note Content (continued)
 
 - Ransom demand: 1 Bitcoin (BTC) or equivalent in other cryptocurrencies.
-- Contact information: A unique, generated email address for each victim (e.g., [victim_id]@cryptolocker2024.com).
-- File extension appended to encrypted files:.cryptolocker2024
+- Contact information: A unique, generated email address for each victim.
+- File extension appended to encrypted files: .enc
 
 #### Customization Options
 
