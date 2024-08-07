@@ -149,7 +149,7 @@ This project aims to provide a detailed analysis and testing of a modern ransomw
 
 #### Data Exfiltration
 
-CryptoLocker2024 exfiltrates the following data to the C2 server:
+The Ransomware exfiltrates the following data to the C2 server:
 
 - Victim's unique identifier (UUID)
 - List of encrypted files and their sizes
@@ -240,12 +240,12 @@ CryptoLocker2024 exfiltrates the following data to the C2 server:
 
 #### File Shadowing and Deletion
 
-- **Shadow Copy Deletion:** CryptoLocker2024 deletes Volume Shadow Copy Service (VSS) backups to prevent data recovery using built-in Windows tools.
+- **Shadow Copy Deletion:** The Ransomware deletes Volume Shadow Copy Service (VSS) backups to prevent data recovery using built-in Windows tools.
 - **File Shadowing:** Not implemented in this version of CryptoLocker2024
 
 #### System Restore Prevention
 
-- **System Restore Points:** CryptoLocker2024 deletes all existing system restore points to prevent victims from restoring their systems to a previous state.
+- **System Restore Points:** The Ransomware deletes all existing system restore points to prevent victims from restoring their systems to a previous state.
 
 ## Mitigation Strategies
 
