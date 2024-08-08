@@ -32,6 +32,8 @@ The **Ransomware-Research-Project** is designed to demonstrate the inner working
 ### Virtual Environment
 
 ![VirtualBox](screenshots/virtualbox.png)
+
+
 The project was all run and initiated on a virtual environment, on **VirtualBox** where I set up a Windows Machine that was isolated and primarily for the purpose of this project. 
 
 ### The Ransomware
