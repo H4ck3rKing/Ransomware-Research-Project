@@ -38,7 +38,7 @@ The project was all run and initiated on a virtual environment, on **VirtualBox*
 
 ### The Ransomware
 
-![Ransomware](screenshots/Ransomware.png)
+![Ransomware](screenshots/ransomware.png)
 
 The Ransomware used in this project is one **I have written and developed on my own**. It is written in python and it is meant for educational Purposes only.
 
