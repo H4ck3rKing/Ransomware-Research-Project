@@ -166,7 +166,7 @@ Before the encryption, there are files that are put in the Downloads, Desktop, M
 
 You can view the video proof of the ransomware in action here:
 
-[![Video Proof](screenshots/proof.webm)
+[Watch Video Proof](https://youtu.be/kc7iucNwb_o)
 
 
 ## Impact Assessment
