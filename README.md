@@ -25,11 +25,21 @@
 
 ## Introduction
 
-This project aims to provide a detailed analysis and testing of a modern ransomware, one I have written myself. By documenting the entire process, from creation to testing, this project seeks to offer valuable insights into ransomware threats, their functionality, and potential mitigation strategies. This project is intended for educational and research purposes only and should not be used for malicious activities.
+The **Ransomware-Research-Project** is designed to demonstrate the inner workings of a Python-based ransomware. The project involves creating a ransomware that encrypts files on a victim's system, displays a ransom note, and provides methods for encryption and decryption. This project is intended solely for educational purposes to help understand ransomware behavior and improve defensive strategies.
 
 ## Project Setup
 
 ### Virtual Environment
+
+![VirtualBox](screenshots/virtualbox.png)
+The project was all run and initiated on a virtual environment, on **VirtualBox** where I set up a Windows Machine that was isolated and primarily for the purpose of this project. 
+
+### The Ransomware
+
+![Ransomware](screenshots/Ransomware.png)
+
+The Ransomware used in this project is one **I have written and developed on my own**. It is written in python and it is meant for educational Purposes only.
+
 
 #### Virtualization Software
 
