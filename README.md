@@ -10,7 +10,6 @@
 3. [Ransomware Creation](#ransomware-creation)
    - [File Encryption](#file-encryption)
    - [Ransom Note Generation](#ransom-note-generation)
-   - [Persistence Mechanism](#persistence-mechanism)
 4. [Ransomware Testing](#ransomware-testing)
    - [Test Environment Setup](#test-environment-setup)
    - [Infection Process](#infection-process)
@@ -110,6 +109,9 @@ Testing the ransomware should be conducted in a controlled environment to preven
      ```bash
      pip install pycryptodome
      ```
+     ![Dependency](screenshots/pycrypto.png)
+
+
 
 4. **Isolate the Virtual Machine**:
    - Ensure that the virtual machine is isolated from the host network to prevent accidental spread of the ransomware. This can typically be done by configuring the network settings to use "Host-only Adapter" or "Internal Network".
@@ -132,12 +134,20 @@ Testing the ransomware should be conducted in a controlled environment to preven
      python ransomware_script.py <encryption_password>
      ```
    - The script will encrypt files in the specified directories, display the ransom note, and establish persistence.
+  
+
+![encryption](screenshots/encryption.png)
+
+
+
 
 ### File Encryption Verification
 
 1. **Verify File Encryption**:
    - After execution, check that files in the targeted directories have been encrypted and are now inaccessible without decryption.
    - Files should be renamed with the `.enc` extension.
+  
+![ENC](screenshots/enc.png)
 
 ### Ransom Note Verification
 
