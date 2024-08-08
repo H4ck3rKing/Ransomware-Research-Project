@@ -3,7 +3,6 @@
 ![Project Banner](screenshots/banner.png)
 
 ## Table of Contents
-
 1. [Introduction](#introduction)
 2. [Project Setup](#project-setup)
    - [Virtual Environment](#virtual-environment)
@@ -12,7 +11,6 @@
    - [File Encryption](#file-encryption)
    - [Ransom Note Generation](#ransom-note-generation)
    - [Persistence Mechanism](#persistence-mechanism)
-   - [Command and Control (C2) Communication](#command-and-control-c2-communication)
 4. [Ransomware Testing](#ransomware-testing)
    - [Test Environment Setup](#test-environment-setup)
    - [Infection Process](#infection-process)
@@ -42,195 +40,169 @@ The project was all run and initiated on a virtual environment, on **VirtualBox*
 
 The Ransomware used in this project is one **I have written and developed on my own**. It is written in python and it is meant for educational Purposes only.
 
-
-#### Virtualization Software
-
-- **Name:** VirtualBox
-- **Version:** 6.1.28
-- **Configuration:** Bridged adapter for network connectivity, 4 GB RAM, 2 CPU cores, and 40 GB virtual hard disk.
-
-#### Guest Operating System
-
-- **Name:** Windows 10 Pro
-- **Version:** 20H2 (Build 19042.1288)
-- **Software Packages:**
-  - Microsoft Edge (Stable)
-  - 7-Zip (16.04)
-  - Wireshark (3.2.11)
-  - Process Explorer (16.21)
-
-#### Network Configuration
-
-- **Adapter Type:** Bridged
-- **IP Addressing Scheme:** DHCP
-- **Network Services:** SMB, HTTP, HTTPS
-
 ### Tools and Libraries
+**The following libraries are used in this project:**
 
-#### Programming Languages
+  1. PyCryptodome: For cryptographic operations such as AES and RSA.
+  2. Tkinter: For creating the ransom note GUI.
 
-- **Name:** Python
-- **Version:** 3.9.7
-- **Libraries:**
-  - PyCryptodome (3.10.1) - Cryptography library
-  - tk
 
-#### Security Tools
+Install the required libraries using pip:
+```bash
+pip install pycryptodome
+```
 
-- **Name:** Wireshark
-- **Version:** 3.2.11
-- **Configuration:** Capture and analyze network traffic during ransomware testing.
+### Ransomware Creation
+**File Encryption**
+The ransomware encrypts files using AES-256-CTR. Here's how it works:
 
-## Ransomware Creation
+1. An AES key of 256 bits is generated using the get_random_bytes function. This key will be used to encrypt files.
+2. **Encrypting Files**: Each file in the target directories is encrypted using AES-256-CTR mode. The AES key ensures that the encryption is strong and secure.
 
-### File Encryption
+```python
+def encrypt_file(file_path, aes_key):
+    with open(file_path, 'rb') as f:
+        plaintext = f.read()
+    iv = get_random_bytes(8)  # 8-byte IV for AES.MODE_CTR
+    cipher = AES.new(aes_key, AES.MODE_CTR, nonce=iv)
+    ciphertext = cipher.encrypt(plaintext)
+    with open(file_path + '.enc', 'wb') as f:
+        f.write(iv + ciphertext)
+    os.remove(file_path)
+```
+ . **Initialization Vector (IV)**: A random 8-byte value used for encryption to ensure that the same plaintext encrypts to different ciphertexts each time.
+ . **AES.MODE_CTR**: A counter mode for AES that turns the block cipher into a stream cipher.
 
-#### Encryption Algorithm
+ 3. **Saving Encrypted Files:**
+Encrypted files are saved with a .enc extension, and the original files are deleted to ensure the user cannot access them without decryption.
 
-- **Name:** Advanced Encryption Standard (AES)
-- **Key Size:** 256 bits
-- **Mode:** CBC (Cipher Block Chaining)
-
-#### Targeted Files
-
-- Document files:.docx,.pdf,.xlsx,.pptx
-- Image files:.jpg,.png,.bmp,.gif
-- Audio and video files:.mp3,.wav,.avi,.mp4
-- Database files:.db,.sqlitedb,.mdb
-- Source code files:.py,.c,.cpp,.java,.cs
-
-#### Encryption Process
-
-1. Identify target files based on their file extensions.
-2. Generate a unique AES key for each file using `get_random_bytes(32)` from PyCryptodome.
-3. Encrypt the file data using the generated AES key and AES-256-CBC mode.
-4. Append the encrypted file data with a unique file extension.
-5. Generate a master key and encrypt it using the victim's public RSA key (obtained from a C2 server).
-6. Save the encrypted master key and the initial vector (IV) used for AES encryption in a ransom note file.
-
-![Encryption Process](screenshots/encryption_process.png)
 
 ### Ransom Note Generation
+The ransomware displays a ransom note to the user, demanding payment in Bitcoin to decrypt the files. This note is presented using a Tkinter-based GUI:
 
-#### Ransom Note Content
+ 1. **Bitcoin Wallet**: The ransom note contains a Bitcoin wallet address where the victim is instructed to send the ransom.
 
-- Ransom demand: 1 Bitcoin (BTC)
-- The Ransomware has the following information:
+ 2. **Countdown Timer**: A 72-hour countdown timer is implemented, after which the ransomware threatens to permanently delete the encryption keys, rendering the files unrecoverable.
 
-
-- File extension appended to encrypted files: .enc
-
-![Ransom Note Example](screenshots/ransom_note_example.png)
-
-
-
-#### Data Exfiltration
-
-The Ransomware exfiltrates the following data to the C2 server:
-
-- Victim's unique identifier (UUID)
-- List of encrypted files and their sizes
-- Encrypted master key (after being encrypted using the victim's public RSA key)
+```python
+def display_ransom_note(password):
+    bitcoin_wallet = "1FfmbHfnpaZjKFvyi1okTjJJusN455paPH"
+    ...
+```
+3. **Password Verification**: The ransom note includes a field where the victim can enter a decryption password (provided after payment). If the correct password is entered, the ransomware's GUI will close.
 
 ## Ransomware Testing
 
+Testing the ransomware should be conducted in a controlled environment to prevent unintended damage. Follow these steps to set up the testing environment:
+
 ### Test Environment Setup
 
-#### Target System(s)
+#### VirtualBox Setup
 
-- **Name:** Windows 10 Pro (Virtual Machine)
-- **Version:** 20H2 (Build 19042.1288)
-- **Software Packages:** Microsoft Edge (Stable), 7-Zip (16.04), Wireshark (3.2.11), Process Explorer (16.21)
+1. **Install VirtualBox**:
+   - Download and install [VirtualBox](https://www.virtualbox.org/).
 
-#### Network Configuration
+2. **Create a New Windows Virtual Machine**:
+   - Open VirtualBox and create a new virtual machine with a Windows operating system.
 
-- **Adapter Type:** Bridged
-- **IP Addressing Scheme:** DHCP
-- **Network Services:** SMB, HTTP, HTTPS
-- **C2 Server IP:** 192.168.1.100
+3. **Install Python and Required Libraries**:
+   - Inside the virtual machine, install Python and the necessary libraries using pip:
+     ```bash
+     pip install pycryptodome
+     ```
 
-#### Data to be Protected
+4. **Isolate the Virtual Machine**:
+   - Ensure that the virtual machine is isolated from the host network to prevent accidental spread of the ransomware. This can typically be done by configuring the network settings to use "Host-only Adapter" or "Internal Network".
 
-- **Location:** C:\Users\Public\Documents
-- **Content:** A mix of document, image, audio, and video files totaling approximately 10 GB.
+#### Snapshot Creation
 
-![Test Environment Diagram](screenshots/test_environment_diagram.png)
-
-
-#### Propagation Within the Target System
-
-1. The ransomware enumerates all drives and their respective file systems.
-2. It identifies target files based on their file extensions.
-3. For each target file, the ransomware generates a unique AES key, encrypts the file data, and appends the encrypted file data with the specified file extension.
-4. The ransomware generates a master key, encrypts it using the victim's public RSA key, and saves it along with the initial vector (IV) used for AES encryption in a ransom note file.
-5. The ransomware modifies the Windows registry and creates a scheduled task to ensure persistence.
-6. The ransomware exfiltrates data to the C2 server,6. The ransomware exfiltrates data to the C2 server, including the victim's unique identifier, the list of encrypted files and their sizes, and the encrypted master key.
-7. The ransomware displays a ransom note, informing the victim of the encryption and providing instructions on how to contact the attackers to retrieve the decryption key.
-
-![Infection in Action](screenshots/infection_in_action.gif)
+1. **Create a Snapshot**:
+   - Before running the ransomware, create a snapshot of the virtual machine. This allows you to restore the machine to its previous state after testing.
+   - In VirtualBox, go to the "Snapshots" tab and click the "Take" button to create a snapshot.
 
 
-![Encrypted Files List](screenshots/encrypted_files_list.png)
 
+## Infection Process
 
-#### System Restore Prevention
+### Executing the Ransomware
 
-- **System Restore Points:** The Ransomware deletes all existing system restore points to prevent victims from restoring their systems to a previous state.
+1. **Run the Ransomware Script**:
+   - Execute the ransomware script within the virtual machine using the command:
+     ```bash
+     python ransomware_script.py <encryption_password>
+     ```
+   - The script will encrypt files in the specified directories, display the ransom note, and establish persistence.
 
+### File Encryption Verification
 
+1. **Verify File Encryption**:
+   - After execution, check that files in the targeted directories have been encrypted and are now inaccessible without decryption.
+   - Files should be renamed with the `.enc` extension.
+
+### Ransom Note Verification
+
+1. **Confirm Ransom Note Display**:
+   - Ensure that the ransom note appears as expected with a functioning countdown timer and password entry field.
+   - The countdown should be decrementing, and the password field should correctly prompt for user input.
+
+## Impact Assessment
+
+The impact assessment involves evaluating the ransomware’s effect on the system:
+
+### File Availability
+
+1. **Check File Encryption**:
+   - Confirm that files in the targeted directories are encrypted and have been renamed with the `.enc` extension.
+
+### System Performance
+
+1. **Monitor System Performance**:
+   - Observe system resource usage, including CPU and memory, to assess the impact of the ransomware on system performance.
+
+### Persistence Verification
+
+1. **Verify Ransomware Persistence**:
+   - Restart the virtual machine and ensure that the ransomware re-executes upon reboot, verifying its persistence mechanism.
+
+## Post-Infection Behavior
+
+Post-infection, the ransomware may exhibit the following behaviors:
+
+### Countdown Progression
+
+1. **Observe Countdown Timer**:
+   - Verify that the countdown timer in the ransom note continues to decrement correctly.
+
+### C2 Communication
+
+1. **Check for C2 Communication**:
+   - If implemented, the ransomware may attempt to contact a Command and Control (C2) server for further instructions or to report the infection status.
 
 ## Mitigation Strategies
 
-### Backup Solutions
+To protect against ransomware infections, consider the following strategies:
 
-- **Off-site Backups:** Regularly backup critical data to an off-site location to ensure data availability in case of a ransomware attack.
-- **Incremental Backups:** Implement incremental backups to minimize storage requirements and reduce backup time.
-- **Immutable Backups:** Use immutable backups to protect against ransomware that targets backup data.
+### Regular Backups
 
-### Antivirus and EDR Solutions
+1. **Maintain Regular Backups**:
+   - Regularly back up critical data and store backups offline or in a secure cloud environment to prevent them from being encrypted by ransomware.
 
-- **Behavioral Detection:** Implement antivirus and Endpoint Detection and Response (EDR) solutions that use behavioral detection to identify and block ransomware based on its behavior.
-- **Machine Learning and AI:** Utilize machine learning and AI-based techniques to improve ransomware detection and response.
-- **Integration with SOAR Platforms:** Integrate antivirus and EDR solutions with Security Orchestration, Automation, and Response (SOAR) platforms to automate incident response processes.
+### Endpoint Protection
 
-### User Awareness and Training
+1. **Use Advanced Protection**:
+   - Employ advanced antivirus and Endpoint Detection and Response (EDR) solutions to detect and prevent ransomware infections.
 
-- **Phishing Awareness:** Provide regular phishing awareness training to educate users on how to identify and avoid phishing attempts, which are often used to deliver ransomware.
-- **Safe Browsing Practices:** Train users on safe browsing practices, such as avoiding suspicious websites and downloading files only from trusted sources.
-- **Remote Work Security:** Educate users on the importance of maintaining strong security practices when working remotely, such as using secure connections and keeping software up-to-date.
+### User Awareness
 
-### Network Segmentation and Access Control
+1. **Educate Users**:
+   - Train users to recognize phishing attacks and ransomware. Stress the importance of not opening suspicious emails or clicking on unknown links.
 
-- **Micro-segmentation:** Implement micro-segmentation to isolate sensitive data and limit the lateral movement of ransomware within the network.
-- **Least Privilege Principle:** Enforce the principle of least privilege to restrict user access to only the resources necessary for their job functions.
-- **Network Access Control (NAC):** Implement NAC to control and monitor network access, preventing unauthorized devices and users from connecting to the network.
+### Network Segmentation
 
-### Regular Software Updates and Patching
+1. **Segment Your Network**:
+   - Implement network segmentation to limit the spread of ransomware. This helps prevent ransomware from propagating across the entire network in case of an infection.
 
-- **Patch Management:** Implement a comprehensive patch management program to ensure that all software, including operating systems, applications, and third-party tools, are up-to-date and patched against known vulnerabilities.
+### Incident Response Plan
 
-### Incident Response Planning
-
-- **Preparation Phase:** Develop and maintain an incident response plan that includes clear roles, responsibilities, and procedures for responding to ransomware incidents.
-- **Detection and Analysis Phase:** Establish processes**Software Packages and Updates:**
-
-
-
-**Example encryption process using PyCryptodome library in Python:**
-
-```python
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
-from Crypto.Util.Padding import pad, unpad
-import os
-
-def encrypt_file(file_path):
-    key = get_random_bytes(32)
-    cipher = AES.new(key, AES.MODE_CBC)
-    with open(file_path, 'rb') as file:
-        file_data = file.read()
-    ciphertext = cipher.encrypt(pad(file_data, AES.block_size))
-    encrypted_file_path = file_path + '.cryptolocker2024'
-    with open(encrypted_file_path, 'wb') as file:
-        file.write(cipher.iv + ciphertext)
-    return key, encrypted_file_path
+1. **Develop an Incident Response Plan**:
+   - Create and regularly update an incident response plan to quickly and effectively respond to ransomware attacks.
