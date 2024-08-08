@@ -131,7 +131,7 @@ Testing the ransomware should be conducted in a controlled environment to preven
 1. **Run the Ransomware Script**:
    - Execute the ransomware script within the virtual machine using the command:
      ```bash
-     python ransomware_script.py <encryption_password>
+     python3 ransomware_script.py <encryption_password>
      ```
    - The script will encrypt files in the specified directories, display the ransom note, and establish persistence.
   
@@ -142,6 +142,11 @@ Testing the ransomware should be conducted in a controlled environment to preven
 
 
 ### File Encryption Verification
+
+Before the encryption, there are files that are put in the Downloads, Desktop, Music and Videos etc. directories as shown below
+
+![encryption](screenshots/before.png)
+
 
 1. **Verify File Encryption**:
    - After execution, check that files in the targeted directories have been encrypted and are now inaccessible without decryption.
@@ -154,6 +159,15 @@ Testing the ransomware should be conducted in a controlled environment to preven
 1. **Confirm Ransom Note Display**:
    - Ensure that the ransom note appears as expected with a functioning countdown timer and password entry field.
    - The countdown should be decrementing, and the password field should correctly prompt for user input.
+
+  ![ransomware](screenshots/ransomwarenote.png)
+
+## Video Proof
+
+You can view the video proof of the ransomware in action here:
+
+[![Video Proof](screenshots/proof.png)](screenshots/proof.mp4)
+
 
 ## Impact Assessment
 
