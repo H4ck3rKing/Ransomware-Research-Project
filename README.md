@@ -1,6 +1,6 @@
 # A Comprehensive Ransomware Analysis and Testing Project
 
-![Project Banner](screenshots/banner.png)
+![Project Banner](screenshots/banner.jpg)
 
 ## Table of Contents
 1. [Introduction](#introduction)
