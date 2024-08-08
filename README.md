@@ -160,13 +160,13 @@ Before the encryption, there are files that are put in the Downloads, Desktop, M
    - Ensure that the ransom note appears as expected with a functioning countdown timer and password entry field.
    - The countdown should be decrementing, and the password field should correctly prompt for user input.
 
-  ![ransomware](screenshots/ransomwarenote.png)
+  ![ransomware](screenshots/note.png)
 
 ## Video Proof
 
 You can view the video proof of the ransomware in action here:
 
-[![Video Proof](screenshots/proof.png)](screenshots/proof.webm)
+[![Video Proof](screenshots/proof.webm)
 
 
 ## Impact Assessment
